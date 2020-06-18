@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">AndroidArchitectures</string>
+    <string name="mvc">MVC</string>
+    <string name="mvp">MVP</string>
+    <string name="mvvm">MVVM</string>
+    <string name="title_mvc">MVC activity</string>
+    <string name="title_mvp">MVP Activity</string>
+    <string name="title_mvvm">MVVM Activity</string>
+    <string name="retry">Retry</string>
+    <string name="error_message">Unable to get Country names. Please retry again.</string>
+</resources>
