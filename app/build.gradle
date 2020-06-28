@@ -40,7 +40,7 @@ android {
 
 def retrofitVersion = '2.8.0'
 def rxJavaVersion = '2.1.1'
-def lifecycleExtensionsVersion = '1.1.1'
+def lifecycleExtensionsVersion = '2.2.0'
 def timberVersion = '4.7.1'
 
 dependencies {
@@ -62,7 +62,9 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxandroid:$rxJavaVersion"
     implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
 
-    implementation "android.arch.lifecycle:extensions: $lifecycleExtensionsVersion"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleExtensionsVersion"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleExtensionsVersion"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycleExtensionsVersion"
 
     //Logging
     implementation "com.jakewharton.timber:timber:$timberVersion"

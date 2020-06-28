@@ -3,26 +3,35 @@ package com.ssh.androidarchitectures.mvvm
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.ssh.androidarchitectures.repositories.CountriesService
+import com.ssh.androidarchitectures.BaseSchedulerProvider
 import com.ssh.androidarchitectures.model.Country
+import com.ssh.androidarchitectures.repositories.CountryRepository
 import io.reactivex.observers.DisposableSingleObserver
+import timber.log.Timber
 
-class CountriesViewModel: ViewModel(){
-    private var countriesService =
-        CountriesService()
+class CountriesViewModel : ViewModel() {
+    private lateinit var repository: CountryRepository
+    private lateinit var scheduler: BaseSchedulerProvider
     private val countries = MutableLiveData<List<String>>()
     private val countriesError = MutableLiveData<Boolean>()
-    init {
+
+    fun init(repository: CountryRepository, scheduler: BaseSchedulerProvider) {
+        this.repository = repository
+        this.scheduler = scheduler
+    }
+
+    fun start() {
         fetchCountries()
     }
+
     private fun fetchCountries() {
-        with(countriesService) {
+        with(repository) {
             getCountries()
-                .subscribeOn(io.reactivex.schedulers.Schedulers.io())
-                .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                .subscribeOn(scheduler.io())
+                .observeOn(scheduler.ui())
                 .subscribeWith(object : DisposableSingleObserver<List<Country>>() {
                     override fun onSuccess(values: List<Country>) {
-                        android.util.Log.e("SUCCESS::", "returns data $values")
+                        Timber.i("Success returns Data $values")
                         val countriesName = values.map { it.name }
                         countries.value = countriesName
                         countriesError.value = false
@@ -36,15 +45,9 @@ class CountriesViewModel: ViewModel(){
         }
     }
 
-    fun getCountries(): LiveData<List<String>> {
-        return countries
-    }
+    fun getCountries(): LiveData<List<String>> = countries
 
-    fun getCountriesError(): LiveData<Boolean> {
-        return countriesError
-    }
+    fun getCountriesError(): LiveData<Boolean> = countriesError
 
-    fun onRefresh() {
-        fetchCountries()
-    }
+    fun onRefresh() { fetchCountries() }
 }
