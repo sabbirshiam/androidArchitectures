@@ -17,8 +17,6 @@ import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
 
 class ViewModelTest {
-
-
     @Rule
     @JvmField
     val instantTaskExecutorRule = InstantTaskExecutorRule()
