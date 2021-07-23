@@ -7,6 +7,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 interface CountryRepository{
     fun getCountries(): Single<List<Country>>
+    suspend fun getCountriess(): List<Country>
 }
 class CountriesService: CountryRepository {
     companion object {
@@ -27,5 +28,9 @@ class CountriesService: CountryRepository {
 
     override fun getCountries(): Single<List<Country>> {
         return countriesApi.getCountries()
+    }
+
+    override suspend fun getCountriess(): List<Country> {
+        return countriesApi.getCountriess()
     }
 }
