@@ -9,16 +9,13 @@ import com.ssh.androidarchitectures.repositories.CountryRepository
 import io.reactivex.observers.DisposableSingleObserver
 import timber.log.Timber
 
-class CountriesViewModel : ViewModel() {
-    private lateinit var repository: CountryRepository
-    private lateinit var scheduler: BaseSchedulerProvider
+class CountriesViewModel(
+    private val repository: CountryRepository,
+    private val scheduler: BaseSchedulerProvider
+) : ViewModel() {
+
     private val countries = MutableLiveData<List<String>>()
     private val countriesError = MutableLiveData<Boolean>()
-
-    fun init(repository: CountryRepository, scheduler: BaseSchedulerProvider) {
-        this.repository = repository
-        this.scheduler = scheduler
-    }
 
     fun start() {
         fetchCountries()
@@ -49,5 +46,7 @@ class CountriesViewModel : ViewModel() {
 
     fun getCountriesError(): LiveData<Boolean> = countriesError
 
-    fun onRefresh() { fetchCountries() }
+    fun onRefresh() {
+        fetchCountries()
+    }
 }
