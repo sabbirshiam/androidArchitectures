@@ -8,4 +8,5 @@
     <string name="title_mvvm">MVVM Activity</string>
     <string name="retry">Retry</string>
     <string name="error_message">Unable to get Country names. Please retry again.</string>
+    <string name="mvi">MVI</string>
 </resources>

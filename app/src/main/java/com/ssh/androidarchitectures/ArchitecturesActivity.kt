@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.ssh.androidarchitectures.mvc.MVCActivity
+import com.ssh.androidarchitectures.mvi.MviActivity
 import com.ssh.androidarchitectures.mvp.MVPActivity
 import com.ssh.androidarchitectures.mvvm.MVVMActivity
 
@@ -24,5 +25,9 @@ class ArchitecturesActivity : AppCompatActivity() {
 
     fun onMVVM(view: View) {
         startActivity(MVVMActivity.getIntent(this@ArchitecturesActivity))
+    }
+
+    fun onMVI(view: View) {
+        startActivity(MviActivity.getIntent(this@ArchitecturesActivity))
     }
 }

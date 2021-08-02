@@ -64,10 +64,17 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxandroid:$rxJavaVersion"
     implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
 
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.2.0'
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleExtensionsVersion"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleExtensionsVersion"
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycleExtensionsVersion"
 
+    //implementation 'android.arch.lifecycle:extensions:1.1.1'
+
     //Logging
     implementation "com.jakewharton.timber:timber:$timberVersion"
+
+    //Coroutine
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0"
 }
