@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.ssh.androidarchitectures.R
 import com.ssh.androidarchitectures.repositories.CountriesService
 import com.ssh.androidarchitectures.utils.ScheduleProvider
+import com.ssh.androidarchitectures.utils.ViewModelsFactory
 import kotlinx.android.synthetic.main.activity_mvvm.*
 
 class MVVMActivity : AppCompatActivity() {
@@ -34,8 +35,8 @@ class MVVMActivity : AppCompatActivity() {
         setContentView(R.layout.activity_mvvm)
         setTitle(R.string.title_mvvm)
 
-        viewModel = ViewModelProvider(this).get(CountriesViewModel::class.java)
-        viewModel.init(CountriesService(), ScheduleProvider())
+        setupViewModel()
+
         listAdapter = ArrayAdapter(this, R.layout.row_layout, R.id.listText, listValues)
 
         list.adapter = listAdapter
@@ -96,4 +97,11 @@ class MVVMActivity : AppCompatActivity() {
     fun showProgress() { progress.visibility = VISIBLE }
 
     fun hideProgress() { progress.visibility = GONE }
+
+    private fun setupViewModel() {
+        viewModel = ViewModelProvider(
+            this,
+            ViewModelsFactory(CountriesService(), ScheduleProvider())
+        ).get(CountriesViewModel::class.java)
+    }
 }
