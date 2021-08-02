@@ -78,7 +78,7 @@ class MviActivity : AppCompatActivity() {
                         hideProgress()
                         showList()
                         listValues.clear()
-                        listValues.addAll(it.user.map { country -> country.name })
+                        listValues.addAll(it.countries.map { country -> country.name })
                         listAdapter.notifyDataSetChanged()
                     }
                     is ViewState.Error -> {
