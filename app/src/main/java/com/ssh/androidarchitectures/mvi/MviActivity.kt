@@ -5,16 +5,19 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.RecyclerView
 import com.ssh.androidarchitectures.R
+import com.ssh.androidarchitectures.model.Country
 import com.ssh.androidarchitectures.repositories.CountriesService
 import com.ssh.androidarchitectures.utils.ScheduleProvider
 import com.ssh.androidarchitectures.utils.ViewModelsFactory
-import kotlinx.android.synthetic.main.activity_mvvm.*
+import kotlinx.android.synthetic.main.activity_mvi.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -22,7 +25,8 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalCoroutinesApi::class)
 class MviActivity : AppCompatActivity() {
     private lateinit var viewModel: MviCountriesViewModel
-    private lateinit var listAdapter: ArrayAdapter<String>
+
+    //  private lateinit var listAdapter: ArrayAdapter<String>
     private var listValues = ArrayList<String>()
 
     companion object {
@@ -41,12 +45,21 @@ class MviActivity : AppCompatActivity() {
     }
 
     private fun setupUI() {
-        listAdapter = ArrayAdapter(this, R.layout.row_layout, R.id.listText, listValues)
-
-        list.adapter = listAdapter
-        list.setOnItemClickListener { _, _, position, _ ->
-            Toast.makeText(this, "you clicked :: ${listValues[position]}", Toast.LENGTH_SHORT)
-                .show()
+//        list.setOnItemClickListener { _, _, position, _ ->
+//            Toast.makeText(this, "you clicked :: ${listValues[position]}", Toast.LENGTH_SHORT)
+//                .show()
+//        }
+        with(list) {
+            adapter = initCountriesAdapter()
+            addItemDecoration(
+                DividerItemDecoration(
+                    context,
+                    DividerItemDecoration.VERTICAL
+                ).apply {
+                    ResourcesCompat.getDrawable(resources, R.drawable.layer_divider, null)
+                        ?.let { setDrawable(it) }
+                }
+            )
         }
     }
 
@@ -77,9 +90,7 @@ class MviActivity : AppCompatActivity() {
                     is ViewState.Countries -> {
                         hideProgress()
                         showList()
-                        listValues.clear()
-                        listValues.addAll(it.countries.map { country -> country.name })
-                        listAdapter.notifyDataSetChanged()
+                        renderList(it.countries)
                     }
                     is ViewState.Error -> {
                         hideProgress()
@@ -121,5 +132,25 @@ class MviActivity : AppCompatActivity() {
 
     private fun showRetry() {
         retryButton.visibility = View.VISIBLE
+    }
+
+    private fun renderList(post: List<Country>) {
+        (list.adapter as? CountriesViewAdapter)?.apply {
+            addData(post)
+        }
+    }
+
+    private fun initCountriesAdapter(): RecyclerView.Adapter<CountriesViewAdapter.CountryViewHolder> {
+        return CountriesViewAdapter(
+            arrayListOf(),
+            object : CountriesViewAdapter.OnClickItemListener {
+                override fun onItemClick(data: Country, position: Int) {
+                    Toast.makeText(
+                        applicationContext,
+                        "you clicked :: ${data.name}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            })
     }
 }
