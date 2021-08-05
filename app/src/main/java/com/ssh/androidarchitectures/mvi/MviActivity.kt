@@ -26,9 +26,6 @@ import kotlinx.coroutines.launch
 class MviActivity : AppCompatActivity() {
     private lateinit var viewModel: MviCountriesViewModel
 
-    //  private lateinit var listAdapter: ArrayAdapter<String>
-    private var listValues = ArrayList<String>()
-
     companion object {
         fun getIntent(context: Context): Intent {
             return Intent(context, MviActivity::class.java)
@@ -45,10 +42,6 @@ class MviActivity : AppCompatActivity() {
     }
 
     private fun setupUI() {
-//        list.setOnItemClickListener { _, _, position, _ ->
-//            Toast.makeText(this, "you clicked :: ${listValues[position]}", Toast.LENGTH_SHORT)
-//                .show()
-//        }
         with(list) {
             adapter = initCountriesAdapter()
             addItemDecoration(
