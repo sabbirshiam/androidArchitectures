@@ -17,9 +17,30 @@ android {
     }
 
     buildTypes {
-        release {
+        getByName("debug") {
             minifyEnabled false
+        }
+        getByName("release") {
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    // Specifies one flavor dimension.
+    flavorDimensions "version"
+    productFlavors {
+        create("dev") {
+            // Assigns this product flavor to the "version" flavor dimension.
+            // If you are using only one dimension, this property is optional,
+            // and the plugin automatically assigns all the module's flavors to
+            // that dimension.
+            dimension = "version"
+            versionNameSuffix = "-demo"
+            buildConfigField "String", "BASE_URL", TEST_BASE_URL
+        }
+        create("prod") {
+            dimension = "version"
+            buildConfigField "String", "BASE_URL", PROD_BASE_URL
         }
     }
 
@@ -57,6 +78,7 @@ dependencies {
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation "com.squareup.okhttp3:mockwebserver:4.6.0"
 
     //retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
