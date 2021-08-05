@@ -33,8 +33,7 @@ class ViewModelTest {
     fun setup() {
         MockitoAnnotations.initMocks(this)
         schedulerProvider = ImmediateSchedulerProvider()
-        viewModel = CountriesViewModel()
-        viewModel.init(repository, schedulerProvider)
+        viewModel = CountriesViewModel(repository, schedulerProvider)
     }
 
 //    @After
